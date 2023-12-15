@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+    postgres:
+      image: postgres:14.1-alpine
+      container_name: events-pgsql
+      restart: always
+      environment:
+        - POSTGRES_USER=test
+        - POSTGRES_PASSWORD=test
+      ports:
+        - 5439:5432
