@@ -40,6 +40,13 @@ class EventService(val eventRepository: EventRepository) {
             .map { event -> EventResponse(event.id, event.message, event.type, event.createdDate) }
             .orElse(null)
     }
+
+    fun findAllByCreatedDate(date: Instant): List<EventResponse>{
+        return eventRepository.findAllByCreatedDateBefore(date)
+            .stream()
+            .map { event -> EventResponse(event.id, event.message, event.type, event.createdDate) }
+            .toList();
+    }
 }
 
 
