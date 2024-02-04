@@ -24,3 +24,7 @@ Run the app using below command, the app expects to run local profile:
 ```shell script
  ./gradlew bootRun --args=--spring.profiles.active=local
 ```
+
+### API Documentation
+Swagger API docs can be accessed below;
+http://localhost:8080/swagger-ui/index.html
