@@ -6,18 +6,15 @@ import com.sse.events.dto.EventRequest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.DynamicPropertyRegistry
-import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.time.Instant
 import java.time.temporal.ChronoUnit
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+
 
 //@DataJpaTest
 @Testcontainers
@@ -33,11 +30,13 @@ class EventServiceTests {
 
         @Container
         @ServiceConnection
-        val postgreSQLContainer = PostgreSQLContainer<Nothing>("postgres:latest").apply {
-            withDatabaseName("test")
-            withUsername("test")
-            withPassword("test")
-        }
+        val postgreSQLContainer =
+            PostgreSQLContainer<Nothing>("postgres:latest")
+                    .apply {
+                                withDatabaseName("test")
+                                withUsername("test")
+                                withPassword("test")
+                            }
     }
 
 

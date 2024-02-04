@@ -6,17 +6,16 @@ import com.sse.events.domain.repository.EventRepository
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.actuate.audit.AuditEventRepository
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
-import org.springframework.test.context.DynamicPropertyRegistry
-import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.security.SecureRandom
 import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 
 @DataJpaTest(properties = ["spring.jpa.hibernate.ddl-auto=create"])
@@ -62,8 +61,14 @@ class EventRepositoryTests {
             "Event 2",
             Instant.now().minus(4, ChronoUnit.MINUTES)
         )
+
+        println("Extension Function "+event3.getDate)
         return Triple(event1, event2, event3)
     }
+
+    val  Event.getDate: LocalDateTime
+        get() = LocalDateTime.ofInstant(createdDate, ZoneId.systemDefault())
+
 
     @Test
     fun shallFindAllAdded11MinsBack(){

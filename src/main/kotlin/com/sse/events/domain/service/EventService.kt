@@ -5,7 +5,6 @@ import com.sse.events.domain.repository.EventRepository
 import com.sse.events.dto.EventRequest
 import com.sse.events.dto.EventResponse
 import com.sse.events.dto.NewEventResponse
-import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import java.security.SecureRandom
 import java.time.Instant
@@ -16,13 +15,20 @@ class EventService(val eventRepository: EventRepository) {
     fun findAll():List<EventResponse>{
         return eventRepository.findAll()
             .stream()
-            .map { event -> EventResponse(event.id, event.message, event.type, event.createdDate) }
+            .map { event ->
+                EventResponse(event.id, event.message, event.type, event.createdDate)
+            }
             .toList()
     }
 
     fun add(eventRequest: EventRequest): NewEventResponse {
         var newEvent = eventRepository.save(
-            Event(SecureRandom().nextLong(), eventRequest.type, eventRequest.message, Instant.now())
+            Event(
+                SecureRandom().nextLong(),
+                eventRequest.type,
+                eventRequest.message,
+                Instant.now()
+            )
         )
         return NewEventResponse(newEvent.id);
     }

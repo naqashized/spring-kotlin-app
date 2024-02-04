@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/events")
+@CrossOrigin("http://localhost:3000/")
 class EventController(val eventService: EventService) {
 
     @GetMapping
