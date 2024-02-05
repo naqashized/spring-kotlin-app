@@ -46,12 +46,11 @@ class StreamingController(val fileService: FileService) {
 
                         limit = Math.min(limit, size.toInt() -end)
                         end = start+limit
-                        val event = data?.let {
-                            SseEmitter.event()
+                        val event = SseEmitter.event()
                                     .data(String(data))
                                     .name("Stream")
-                        }
-                        emitter.send(event!!)
+
+                        emitter.send(event)
                     }catch (exception: Exception){
                         logger.info("Error {}",exception.message)
                     }
