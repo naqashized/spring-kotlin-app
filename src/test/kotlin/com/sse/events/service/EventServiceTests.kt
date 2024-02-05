@@ -30,7 +30,7 @@ class EventServiceTests {
 
         @Container
         @ServiceConnection
-        val postgreSQLContainer =
+        val container =
             PostgreSQLContainer<Nothing>("postgres:latest")
                     .apply {
                                 withDatabaseName("test")

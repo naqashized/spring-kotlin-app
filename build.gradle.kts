@@ -34,6 +34,7 @@ dependencies {
 	testImplementation ("org.testcontainers:postgresql:1.16.3")
 	testImplementation ("org.testcontainers:testcontainers")
 	testImplementation ("org.testcontainers:junit-jupiter:1.16.3")
+	testImplementation ("org.assertj:assertj-core:3.24.2")
 }
 
 tasks.withType<KotlinCompile> {

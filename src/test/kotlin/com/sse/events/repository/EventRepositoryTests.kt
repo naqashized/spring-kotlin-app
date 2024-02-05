@@ -35,6 +35,7 @@ class EventRepositoryTests {
         }
     }
 
+
     @Test
     fun add(){
         val (event1, event2, event3) = triple()
@@ -61,8 +62,6 @@ class EventRepositoryTests {
             "Event 2",
             Instant.now().minus(4, ChronoUnit.MINUTES)
         )
-
-        println("Extension Function "+event3.getDate)
         return Triple(event1, event2, event3)
     }
 
