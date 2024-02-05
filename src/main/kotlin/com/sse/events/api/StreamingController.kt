@@ -21,11 +21,11 @@ class StreamingController(val fileService: FileService) {
         const val FILE_APPEND_PATH ="src\\main\\resources\\1234.mp4"
         val logger: Logger = LoggerFactory.getLogger(StreamingController::class.java)
     }
-    @GetMapping("", produces = arrayOf("application/octet-stream"))
-    fun streamSseMvc(): SseEmitter? {
+    @GetMapping(produces = arrayOf("application/octet-stream"))
+    fun streamFile(): SseEmitter? {
         var start = 0
         var limit = 5000
-        var end:Int = start+limit;
+        var end:Int = limit;
         val emitter = SseEmitter()
         val size = fileService.size()
         logger.info("File size {}", size)
