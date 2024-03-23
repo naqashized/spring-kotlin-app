@@ -2,10 +2,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id("org.springframework.boot") version "3.2.0"
-	id("io.spring.dependency-management") version "1.1.4"
-	kotlin("jvm") version "1.9.20"
-	kotlin("plugin.spring") version "1.9.20"
-	kotlin("plugin.jpa") version "1.9.20"
+	id("io.spring.dependency-management") version "1.1.0"
+	kotlin("jvm") version "1.8.20"
+	kotlin("plugin.spring") version "1.8.20"
+	kotlin("plugin.jpa") version "1.8.20"
+	id("io.gitlab.arturbosch.detekt") version "1.21.0"
 }
 
 group = "com.sse"
@@ -24,7 +25,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 	implementation ("org.springframework.boot:spring-boot-starter-actuator")
 	runtimeOnly ("io.micrometer:micrometer-registry-prometheus")
 
@@ -46,4 +47,20 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+detekt {
+	version = "1.21.0"
+	config = files("config/detekt/detekt.yml")
+	buildUponDefaultConfig = true
+}
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+		txt.required.set(true)
+		sarif.required.set(true)
+		md.required.set(true)
+	}
 }
