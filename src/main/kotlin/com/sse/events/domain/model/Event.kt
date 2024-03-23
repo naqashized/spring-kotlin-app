@@ -12,4 +12,4 @@ class Event(
     var type:EventType,
     var message: String,
     var createdDate: Instant
-    )
+)
