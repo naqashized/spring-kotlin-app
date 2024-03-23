@@ -2,6 +2,7 @@ package com.sse.events.api
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.sse.events.common.AbstractTestContainer
 import com.sse.events.domain.model.Event
 import com.sse.events.domain.model.EventType
 import com.sse.events.domain.repository.EventRepository
@@ -13,14 +14,10 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
-import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
 import java.nio.charset.StandardCharsets
 import java.security.SecureRandom
 import java.time.Instant
@@ -29,25 +26,12 @@ import java.time.temporal.ChronoUnit
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
                 properties = [ "spring.jpa.hibernate.ddl-auto=create" ]
 )
-@Testcontainers
 @AutoConfigureMockMvc
 class EventControllerTests @Autowired constructor(
     val mockMvc: MockMvc,
     val objectMapper: ObjectMapper,
     val eventRepository: EventRepository
-){
-    companion object {
-
-        @Container
-        @ServiceConnection
-        val container =
-            PostgreSQLContainer<Nothing>("postgres:latest")
-                    .apply {
-                        withDatabaseName("test")
-                        withUsername("test")
-                        withPassword("test")
-                    }
-    }
+):  AbstractTestContainer() {
 
     @BeforeEach
     fun setup(){

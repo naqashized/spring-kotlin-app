@@ -1,5 +1,6 @@
 package com.sse.events.repository
 
+import com.sse.events.common.AbstractTestContainer
 import com.sse.events.domain.model.Event
 import com.sse.events.domain.model.EventType
 import com.sse.events.domain.repository.EventRepository
@@ -8,10 +9,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection
-import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
 import java.security.SecureRandom
 import java.time.Instant
 import java.time.LocalDateTime
@@ -19,23 +16,10 @@ import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 
 @DataJpaTest(properties = ["spring.jpa.hibernate.ddl-auto=create"])
-@Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class EventRepositoryTests {
+class EventRepositoryTests:  AbstractTestContainer() {
     @Autowired
     private lateinit var eventRepository: EventRepository
-    companion object {
-
-        @Container
-        @ServiceConnection
-        val container = PostgreSQLContainer<Nothing>("postgres:latest").apply {
-            withDatabaseName("test")
-            withUsername("test")
-            withPassword("test")
-        }
-    }
-
-
     @Test
     fun add(){
         val (event1, event2, event3) = triple()
